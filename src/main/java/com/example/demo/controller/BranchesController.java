@@ -23,7 +23,7 @@ public class BranchesController {
     public String listBranches(Model model) {
         List<Branches> branches = branchesService.getAllBranches();
         model.addAttribute("branches", branches);
-        return "branch/index"; // Ensure that "branch/index.html" exists and lists the branches
+        return "branch/index"; // Ensure that "branch/home.html" exists and lists the branches
     }
 
     // Show the form to create a new branch

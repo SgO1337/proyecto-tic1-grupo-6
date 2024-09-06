@@ -23,7 +23,7 @@ public class RoomsController {
     public String listRooms(Model model) {
         List<Rooms> rooms = roomsService.getAllRooms();
         model.addAttribute("rooms", rooms);
-        return "index"; // Ensure that "index.html" exists and lists the rooms
+        return "home"; // Ensure that "home.html" exists and lists the rooms
     }
 
     // Show the form to create a new room
