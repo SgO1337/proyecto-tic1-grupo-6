@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+#para poner informacion sensitiva y referenciarla (x ej contrasenas de la bd, ip, etc)
+.env
