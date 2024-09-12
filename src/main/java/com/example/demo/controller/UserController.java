@@ -42,10 +42,9 @@ public class UserController {
         if (existingUser == null) {
             return null;  // You can handle this with a 404 or an error message
         }
-
-        // Update the user's fields
-        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setName(updatedUser.getName());
         existingUser.setEmail(updatedUser.getEmail());
+
 
         return userService.saveUser(existingUser);  // Save and return the updated user
     }
