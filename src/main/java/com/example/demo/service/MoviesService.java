@@ -16,7 +16,7 @@ public class MoviesService {
     public MoviesService(MoviesRepository moviesRepository) {
         this.moviesRepository = moviesRepository;
     }
-    // get asll movies
+    // get all movies
     public  List<Movies> getAllMovies() {
         return moviesRepository.findAll();
     }
@@ -37,8 +37,12 @@ public class MoviesService {
         movie.ifPresent(m -> moviesRepository.deleteById(id));
     }
 
-
+    @Transactional
+    public List<Movies> getAllAvailableMovies() {
+        List<Movies> moviesAvailable =  moviesRepository.getAllAvailableMovies();
+        return moviesAvailable;
     }
+}
 
 
 
