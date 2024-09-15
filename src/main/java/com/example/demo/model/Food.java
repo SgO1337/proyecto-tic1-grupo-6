@@ -21,5 +21,43 @@ public class Food {
     @OneToMany(mappedBy = "food")
     private List<OrderFood> orders;
 
-    // Getters and Setters...
+    public Long getIdFood() {
+        return idFood;
+    }
+
+    public void setIdFood(Long idFood) {
+        this.idFood = idFood;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public List<OrderFood> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderFood> orders) {
+        this.orders = orders;
+    }
 }

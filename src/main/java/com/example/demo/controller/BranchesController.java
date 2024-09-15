@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/branches")  // This makes the "/branches" path the base for all routes
+@RestController  // Cambio a RestController para respuestas en JSON
+@RequestMapping("/api/branches")  // Cambia la URL base para empezar con /api
+@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
 public class BranchesController {
 
     private final BranchesService branchesService;

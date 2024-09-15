@@ -1,87 +1,91 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Branches;
-import com.example.demo.service.BranchesService;
+import com.example.demo.model.Food;
+import com.example.demo.service.FoodService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/branches")  // This makes the "/branches" path the base for all routes
-public class BranchesController {
+@RestController  // Cambio a RestController para respuestas en JSON
+@RequestMapping("/api/food")  // Cambia la URL base para empezar con /api
+@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
+public class FoodController {
 
-    private final BranchesService branchesService;
+    private final FoodService foodService;
 
-    public BranchesController(BranchesService branchService) {
-        this.branchesService = branchService;
+    // Constructor que inyecta el servicio FoodService
+    public FoodController(FoodService foodService) {
+        this.foodService = foodService;
     }
 
-    // List all branches
+    // Listar todos los alimentos
     @GetMapping
-    public String listBranches(Model model) {
-        List<Branches> branches = branchesService.getAllBranches();
-        model.addAttribute("branches", branches);
-        return "branch/index"; // Ensure that "branch/home.html" exists and lists the branches
+    public String listFood(Model model) {
+        List<Food> foodList = foodService.getAllFood();
+        model.addAttribute("food", foodList);
+        return "food/index"; // Asegúrate de que "food/index.html" existe y lista los alimentos
     }
 
-    // Show the form to create a new branch
+    // Mostrar el formulario para crear un nuevo alimento
     @GetMapping("/create")
-    public String createBranchForm(Model model) {
-        model.addAttribute("branch", new Branches());  // Add a new branch object for form binding
-        return "branch/create"; // Ensure that "branch/create.html" is for branch creation
+    public String createFoodForm(Model model) {
+        model.addAttribute("food", new Food());  // Añade un nuevo objeto Food para el formulario
+        return "food/create"; // Asegúrate de que "food/create.html" existe para la creación de alimentos
     }
 
-    // Save a new branch or updated branch
+    // Guardar un nuevo alimento o actualizar uno existente
     @PostMapping("/save")
-    public String saveBranch(@ModelAttribute("branch") Branches branch) {
-        branchesService.saveBranch(branch);
-        return "redirect:/branches"; // Redirect back to the list after saving
+    public String saveFood(@ModelAttribute("food") Food food) {
+        foodService.saveFood(food);
+        return "redirect:/food"; // Redirige a la lista de alimentos después de guardar
     }
 
-    // View a specific branch by ID
+    // Ver un alimento específico por su ID
     @GetMapping("/view/{id}")
-    public String viewBranch(@PathVariable Long id, Model model) {
-        Branches branch = branchesService.getBranchById(id);
-        if (branch == null) {
-            return "redirect:/branches";  // Handle branch not found, redirect to the list
+    public String viewFood(@PathVariable Long id, Model model) {
+        Food food = foodService.getFoodById(id);
+        if (food == null) {
+            return "redirect:/food";  // Manejar cuando no se encuentra el alimento, redirigir a la lista
         }
-        model.addAttribute("branch", branch);
-        return "branch/view"; // Ensure that "branch/view.html" exists to show branch details
+        model.addAttribute("food", food);
+        return "food/view"; // Asegúrate de que "food/view.html" existe para mostrar los detalles del alimento
     }
 
-    // Show the form to update an existing branch
+    // Mostrar el formulario para actualizar un alimento existente
     @GetMapping("/update/{id}")
-    public String updateBranchForm(@PathVariable Long id, Model model) {
-        Branches branch = branchesService.getBranchById(id);
-        if (branch == null) {
-            return "redirect:/branches";  // Handle branch not found, redirect to the list
+    public String updateFoodForm(@PathVariable Long id, Model model) {
+        Food food = foodService.getFoodById(id);
+        if (food == null) {
+            return "redirect:/food";  // Manejar cuando no se encuentra el alimento, redirigir a la lista
         }
-        model.addAttribute("branch", branch);
-        return "branch/update"; // Ensure that "branch/update.html" is for editing the branch
+        model.addAttribute("food", food);
+        return "food/update"; // Asegúrate de que "food/update.html" existe para editar el alimento
     }
 
     @PostMapping("/update")
-    public String updateBranch(@ModelAttribute Branches branch) {
-        Branches existingBranch = branchesService.getBranchById(branch.getIdBranch());
-        if (existingBranch == null) {
-            return "redirect:/branches";  // Handle branch not found, redirect to the list
+    public String updateFood(@ModelAttribute Food food) {
+        Food existingFood = foodService.getFoodById(food.getIdFood());
+        if (existingFood == null) {
+            return "redirect:/food";  // Manejar cuando no se encuentra el alimento, redirigir a la lista
         }
 
-        // Update the existing branch's fields
-        existingBranch.setLocation(branch.getLocation());
+        // Actualizar los campos del alimento existente
+        existingFood.setName(food.getName());
+        existingFood.setPrice(food.getPrice());
 
-        // Save the updated branch
-        branchesService.saveBranch(existingBranch);
 
-        return "redirect:/branches"; // Redirect to the branches list after update
+        // Guardar el alimento actualizado
+        foodService.saveFood(existingFood);
+
+        return "redirect:/food"; // Redirigir a la lista de alimentos después de actualizar
     }
 
-    // Delete a branch
+    // Eliminar un alimento
     @GetMapping("/delete/{id}")
-    public String deleteBranch(@PathVariable Long id) {
-        branchesService.deleteBranch(id);
-        return "redirect:/branches"; // Redirect back to the list after deletion
+    public String deleteFood(@PathVariable Long id) {
+        foodService.deleteFood(id);
+        return "redirect:/food"; // Redirigir a la lista después de eliminar
     }
 }

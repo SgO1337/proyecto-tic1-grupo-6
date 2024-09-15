@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/rooms")  // This makes the "/rooms" path the base for all routes
+@RestController  // Cambio a RestController para respuestas en JSON
+@RequestMapping("/api/rooms")  // Cambia la URL base para empezar con /api
+@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
 public class RoomsController {
 
     private final RoomsService roomsService;

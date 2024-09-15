@@ -1,71 +1,57 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Movies;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
-
-import com.example.demo.model.Movies;
-import com.example.demo.service.MoviesService;
+import com.example.demo.model.Seats;
+import com.example.demo.service.SeatsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-    @RestController  // Cambio a RestController para respuestas en JSON
-    @RequestMapping("/api/movies")  // Cambia la URL base para empezar con /api
-    @CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
-    public class MoviesController {
 
-        private final MoviesService moviesService;
+@RestController  // Cambio a RestController para respuestas en JSON
+@RequestMapping("/api/seats")  // Cambia la URL base para empezar con /api
+@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
 
-        public MoviesController(MoviesService moviesService) {
-            this.moviesService = moviesService;
-        }
+//seats requiere:
+/*
+-una funcion para retornar todos los asientos (y sus respectivos estados) para una screening
+-una funcion para "ocupar" asientos
+-una para desocupar asientos
+*/
+public class SeatsController {
 
-        // Listar todas las películas
-        @GetMapping
-        public List<Movies> listMovies() {
-            return moviesService.getAllMovies();  // Retorna una lista de películas en JSON
-        }
+    @Autowired
+    private SeatsService seatService;
 
-        // Listar todas las películas
-        @GetMapping("/currently-available")
-        public List<Movies> listAvailableMovies() {
-            return moviesService.getAllAvailableMovies();  // Retorna una lista de todas las películas en cartelera en JSON
-        }
+    // Get all seats for a screening
+    @GetMapping("/all")
+    public ResponseEntity<List<Seats>> getAllSeats(@RequestParam Long screeningId) {
+        List<Seats> seats = seatService.getAllSeatsByScreeningId(screeningId);
+        return ResponseEntity.ok(seats);
+    }
 
-        // Crear una nueva película
-        @PostMapping("/create")
-        public Movies createMovie(@RequestBody Movies movie) {
-            return moviesService.saveMovie(movie);  // Crea y retorna la nueva película como JSON
-        }
-
-        // Ver una película específica por ID
-        @GetMapping("/view/{id}")
-        public Movies viewMovie(@PathVariable Long id) {
-            return moviesService.getMovieById(id);  // Retorna la película como JSON
-        }
-
-        // Actualizar una película existente
-        @PutMapping("/update/{id}")
-        public Movies updateMovie(@PathVariable Long id, @RequestBody Movies updatedMovie) {
-            Movies existingMovie = moviesService.getMovieById(id);
-            if (existingMovie == null) {
-                return null;  // Puedes manejar esto con un 404 o un mensaje de error
-            }
-
-            // Actualizar los campos de la película
-            existingMovie.setTitle(updatedMovie.getTitle());
-            existingMovie.setDirector(updatedMovie.getDirector());
-            existingMovie.setReleaseDate(updatedMovie.getReleaseDate());
-
-            return moviesService.saveMovie(existingMovie);  // Guarda y retorna la película actualizada
-        }
-
-        // Eliminar una película
-        @DeleteMapping("/delete/{id}")
-        public void deleteMovie(@PathVariable Long id) {
-            moviesService.deleteMovie(id);  // Elimina la película por ID
+    // Book a seat
+    @PutMapping("/book")
+    public ResponseEntity<String> bookSeat(@RequestParam Long screeningId, @RequestParam Long seatId) {
+        boolean isBooked = seatService.bookSeat(screeningId, seatId);
+        if (isBooked) {
+            return ResponseEntity.ok("Seat booked successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Seat is already booked or not found.");
         }
     }
+
+    // Unbook a seat
+    @PutMapping("/unbook")
+    public ResponseEntity<String> unbookSeat(@RequestParam Long screeningId, @RequestParam Long seatId) {
+        boolean isUnbooked = seatService.unbookSeat(screeningId, seatId);
+        if (isUnbooked) {
+            return ResponseEntity.ok("Seat unbooked successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Seat is already unbooked or not found.");
+        }
+    }
+}
+
 
