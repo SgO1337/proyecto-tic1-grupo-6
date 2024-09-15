@@ -34,6 +34,12 @@ import java.util.List;
             return moviesService.saveMovie(movie);  // Crea y retorna la nueva película como JSON
         }
 
+        // Crear una nueva película
+        @PostMapping("/view/available")
+        public Movies getAvailableMovies(@RequestBody Movies movie) {
+            return moviesService.saveMovie(movie);  // Crea y retorna la nueva película como JSON
+        }
+
         // Ver una película específica por ID
         @GetMapping("/view/{id}")
         public Movies viewMovie(@PathVariable Long id) {

@@ -37,6 +37,11 @@ public class MoviesService {
         movie.ifPresent(m -> moviesRepository.deleteById(id));
     }
 
+    @Transactional
+    public List<Movies> getMoviesAvailable() {
+        List<Movies> moviesAvailable =  moviesRepository.getMoviesAvailable();
+        return moviesAvailable;
+    }
 
     }
 
