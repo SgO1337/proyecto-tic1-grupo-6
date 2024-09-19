@@ -10,7 +10,7 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idOrder;
-
+    private Long userId;
     @Column(nullable = false)
     private Boolean isCancelled = false;
 
@@ -19,7 +19,7 @@ public class Orders {
 
     private Date date;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "orders")
     private List<OrderFood> orderFood;
 
     // Constructor por defecto

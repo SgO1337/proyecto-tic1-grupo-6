@@ -18,7 +18,7 @@ public class Seats {
 
     // Establishing the many-to-one relationship with Screening
     @ManyToOne
-    @JoinColumn(name = "screening_id", nullable = false)
+    @JoinColumn(name = "idScreening", nullable = false)
     private Screenings screening;
 
     public boolean isBooked() {

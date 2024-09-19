@@ -8,7 +8,8 @@ import java.util.List;
 
 @RestController  // Change to RestController for JSON responses
 @RequestMapping("/api/users")  // Update the base URL to start with /api
-@CrossOrigin(origins = "http://localhost:3000")  // Allow CORS for your React app
+//@CrossOrigin(origins = "http://localhost:3000")  // Allow CORS for your React app
+@CrossOrigin(origins = "*")  // Allow CORS for your React app
 public class UserController {
 
     private final UserService userService;
