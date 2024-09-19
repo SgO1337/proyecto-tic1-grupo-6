@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MoviesRepository extends JpaRepository<Movies, Long> {
+
     @Query("SELECT m FROM Movies m WHERE m.isAvailable = true")
-    List<Movies> getMoviesAvailable();
+    List<Movies> getAllAvailableMovies();
+
 }

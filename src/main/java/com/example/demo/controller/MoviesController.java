@@ -28,6 +28,12 @@ import java.util.List;
             return moviesService.getAllMovies();  // Retorna una lista de películas en JSON
         }
 
+        // Listar todas las películas
+        @GetMapping("/currently-available")
+        public List<Movies> listAvailableMovies() {
+            return moviesService.getAllAvailableMovies();  // Retorna una lista de todas las películas en cartelera en JSON
+        }
+
         // Crear una nueva película
         @PostMapping("/create")
         public Movies createMovie(@RequestBody Movies movie) {

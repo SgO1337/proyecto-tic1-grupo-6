@@ -20,4 +20,12 @@ public class Seats {
     @ManyToOne
     @JoinColumn(name = "screening_id", nullable = false)
     private Screenings screening;
+
+    public boolean isBooked() {
+        return this.isBooked;
+    }
+
+    public void setBooked(boolean b) {
+        this.isBooked = b;
+    }
 }

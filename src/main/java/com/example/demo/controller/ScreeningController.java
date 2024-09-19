@@ -8,14 +8,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController  // Cambio a RestController para respuestas en JSON
-@RequestMapping("/api/branches")  // Cambia la URL base para empezar con /api
+@RequestMapping("/api/screening")  // Cambia la URL base para empezar con /api
 @CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
-public class BranchesController {
+
+public class ScreeningController {
 
     private final BranchesService branchesService;
 
-    public BranchesController(BranchesService branchService) {
+    public ScreeningController(BranchesService branchService) {
         this.branchesService = branchService;
     }
 
