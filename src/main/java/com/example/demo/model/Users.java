@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Users {
     @Id
@@ -13,6 +15,10 @@ public class Users {
     private String email;
     private String password;
     private Integer age;
+
+    @OneToMany()
+    @JoinColumn(name= "idBookingScreenings", nullable = false)
+    private List<BookingScreenings> bookingScreenings;
 
     public Long getIdUser() {
         return idUser;
@@ -68,5 +74,13 @@ public class Users {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public List<BookingScreenings> getBookingScreenings() {
+        return bookingScreenings;
+    }
+
+    public void setBookingScreenings(List<BookingScreenings> bookingScreenings) {
+        this.bookingScreenings = bookingScreenings;
     }
 }
