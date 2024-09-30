@@ -21,12 +21,34 @@ public class Movies {
     private boolean isAvailable;
     private String distributer;
     private String dimension;
+    private String posterV;
+    private String posterH;
 
     @OneToMany(mappedBy = "movie")
     private List<Screenings> screenings;
 
     public Long getIdMovie() {
         return idMovie;
+    }
+
+    public String getPosterV() {
+        return posterV;
+    }
+
+    public void setPosterV(String posterV) {
+        this.posterV = posterV;
+    }
+
+    public String getPosterH() {
+        return posterH;
+    }
+
+    public void setPosterH(String posterH) {
+        this.posterH = posterH;
+    }
+
+    public void setScreenings(List<Screenings> screenings) {
+        this.screenings = screenings;
     }
 
     public void setIdMovie(Long idMovie) {

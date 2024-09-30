@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
     @RestController  // Cambio a RestController para respuestas en JSON
     @RequestMapping("/api/movies")  // Cambia la URL base para empezar con /api
-    @CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
+    //@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
     public class MoviesController {
 
         private final MoviesService moviesService;
@@ -28,7 +28,7 @@ import java.util.List;
             return moviesService.getAllMovies();  // Retorna una lista de películas en JSON
         }
 
-        // Listar todas las películas
+        // Listar todas las películas en cartelera
         @GetMapping("/currently-available")
         public List<Movies> listAvailableMovies() {
             return moviesService.getAllAvailableMovies();  // Retorna una lista de todas las películas en cartelera en JSON
