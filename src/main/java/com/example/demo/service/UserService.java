@@ -20,6 +20,7 @@ public class UserService {
     // Fetch all users
     public List<Users> getAllUsers() {
         return userRepository.findAll();  // Returns a list of users in JSON format when used by REST API
+
     }
 
     // Fetch a single user by ID
