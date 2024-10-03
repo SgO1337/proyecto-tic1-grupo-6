@@ -42,8 +42,8 @@ public class ScreeningsController {
         Screenings savedScreening = screeningService.saveScreening(screening);
 
         // Create 150 seats for this screening by calling SeatsController
-        String seatCreationUrl = "http://localhost:8080/api/seats/create?screeningId=" + savedScreening.getIdScreening();
-        restTemplate.postForObject(seatCreationUrl, null, String.class); // Call the endpoint to create seats
+        //String seatCreationUrl = "http://localhost:8080/api/seats/create?screeningId=" + savedScreening.getIdScreening();
+        //restTemplate.postForObject(seatCreationUrl, null, String.class); // Call the endpoint to create seats
 
         return savedScreening;
     }

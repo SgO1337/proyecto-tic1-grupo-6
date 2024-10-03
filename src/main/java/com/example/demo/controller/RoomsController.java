@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Branches;
 import com.example.demo.model.Rooms;
 import com.example.demo.service.RoomsService;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class RoomsController {
 
     // Show the form to create a new room
     @GetMapping("/create")
-    public String createRoomForm(Model model) {
+    public String createRoomForm(Model model) { // Add Branches object to the model
         model.addAttribute("room", new Rooms());  // Add a new room object for form binding
         return "create"; // Ensure that "create.html" is for room creation
     }

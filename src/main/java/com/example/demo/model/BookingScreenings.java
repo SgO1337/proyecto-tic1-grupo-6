@@ -1,7 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import org.springframework.security.core.userdetails.User;
+
+import com.example.demo.model.*;
 
 import java.time.LocalDateTime;
 
@@ -10,15 +11,22 @@ public class BookingScreenings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idBookingScreening;
-    private long idScreening;
+
     private LocalDateTime bookingTime;
-    private User user;
+
     private boolean isCancelled;
 
     @ManyToOne()
     @JoinColumn(name = "idSeats", nullable = false)
     private Seats seats;
 
+    @OneToOne()
+    @JoinColumn(name = "idUsers", nullable = false)
+    private Users user;
+
+    @OneToOne()
+    @JoinColumn(name = "idScreening", nullable = false)
+    private Screenings idScreening;
 
     public long getIdBookingScreening() {
         return idBookingScreening;
@@ -28,11 +36,11 @@ public class BookingScreenings {
         this.idBookingScreening = idBookingScreening;
     }
 
-    public long getIdScreening() {
+    public Screenings getIdScreening() {
         return idScreening;
     }
 
-    public void setIdScreening(long idScreening) {
+    public void setIdScreening(Screenings idScreening) {
         this.idScreening = idScreening;
     }
 
@@ -52,11 +60,11 @@ public class BookingScreenings {
         this.seats = seats;
     }
 
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
 

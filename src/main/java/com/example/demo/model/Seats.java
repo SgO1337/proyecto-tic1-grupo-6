@@ -15,7 +15,8 @@ public class Seats {
     private Long idSeat;
     private String seatNumber;
     private boolean isBooked;
-
+    private int row;
+    private int col;
     // Establishing the many-to-one relationship with Screening
     @ManyToOne
     @JoinColumn(name = "idScreening", nullable = false)
@@ -33,8 +34,41 @@ public class Seats {
         return screening;
     }
 
+    public Long getIdSeat() {
+        return idSeat;
+    }
+
+    public void setIdSeat(Long idSeat) {
+        this.idSeat = idSeat;
+    }
+
+    public String getSeatNumber() {
+        return seatNumber;
+    }
+
+    public void setSeatNumber(String seatNumber) {
+        this.seatNumber = seatNumber;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
     // This method sets the Screenings entity directly
     public void setScreening(Screenings screening) {
         this.screening = screening;
     }
 }
+

@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Branches;
 import com.example.demo.service.BranchesService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @RestController  // Cambio a RestController para respuestas en JSON
 @RequestMapping("/api/branches")  // Cambia la URL base para empezar con /api
-@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
+//@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
 public class BranchesController {
 
     private final BranchesService branchesService;
@@ -19,70 +20,66 @@ public class BranchesController {
         this.branchesService = branchService;
     }
 
-    // List all branches
     @GetMapping
-    public String listBranches(Model model) {
+    public ResponseEntity<List<Branches>> listBranches() {
         List<Branches> branches = branchesService.getAllBranches();
-        model.addAttribute("branches", branches);
-        return "branch/index"; // Ensure that "branch/home.html" exists and lists the branches
+        return ResponseEntity.ok(branches); // Return the list of branches as JSON
     }
 
-    // Show the form to create a new branch
-    @GetMapping("/create")
-    public String createBranchForm(Model model) {
-        model.addAttribute("branch", new Branches());  // Add a new branch object for form binding
-        return "branch/create"; // Ensure that "branch/create.html" is for branch creation
-    }
-
-    // Save a new branch or updated branch
-    @PostMapping("/save")
-    public String saveBranch(@ModelAttribute("branch") Branches branch) {
-        branchesService.saveBranch(branch);
-        return "redirect:/branches"; // Redirect back to the list after saving
-    }
-
-    // View a specific branch by ID
     @GetMapping("/view/{id}")
-    public String viewBranch(@PathVariable Long id, Model model) {
+    public ResponseEntity<?> viewBranch(@PathVariable Long id) {
         Branches branch = branchesService.getBranchById(id);
         if (branch == null) {
-            return "redirect:/branches";  // Handle branch not found, redirect to the list
+            return ResponseEntity.status(404).body("Branch not found");
         }
-        model.addAttribute("branch", branch);
-        return "branch/view"; // Ensure that "branch/view.html" exists to show branch details
+        return ResponseEntity.ok(branch); // Return the branch details as JSON
     }
 
-    // Show the form to update an existing branch
-    @GetMapping("/update/{id}")
-    public String updateBranchForm(@PathVariable Long id, Model model) {
+    @PostMapping("/create")
+    public ResponseEntity<String> create(@RequestBody BranchCreationRequest request) throws Exception {
+        branchesService.createBranch(request.getLocation());
+        return ResponseEntity.ok("test");
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateBranch(@PathVariable Long id, @RequestBody Branches updatedBranch) {
+        // Fetch the existing branch
         Branches branch = branchesService.getBranchById(id);
         if (branch == null) {
-            return "redirect:/branches";  // Handle branch not found, redirect to the list
-        }
-        model.addAttribute("branch", branch);
-        return "branch/update"; // Ensure that "branch/update.html" is for editing the branch
-    }
-
-    @PostMapping("/update")
-    public String updateBranch(@ModelAttribute Branches branch) {
-        Branches existingBranch = branchesService.getBranchById(branch.getIdBranch());
-        if (existingBranch == null) {
-            return "redirect:/branches";  // Handle branch not found, redirect to the list
+            return ResponseEntity.status(400).body("Branch not found");
         }
 
-        // Update the existing branch's fields
-        existingBranch.setLocation(branch.getLocation());
+        // Update the branch details
+        branch.setLocation(updatedBranch.getLocation());
 
         // Save the updated branch
-        branchesService.saveBranch(existingBranch);
+        branchesService.saveBranch(branch);
 
-        return "redirect:/branches"; // Redirect to the branches list after update
+        return ResponseEntity.ok("Branch updated successfully");
     }
 
-    // Delete a branch
-    @GetMapping("/delete/{id}")
-    public String deleteBranch(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteBranch(@PathVariable Long id) {
+        // Fetch the existing branch
+        if (branchesService.getBranchById(id) == null) {
+            return ResponseEntity.status(400).body("Branch not found");
+        }
+
         branchesService.deleteBranch(id);
-        return "redirect:/branches"; // Redirect back to the list after deletion
+
+        return ResponseEntity.ok("Branch deleted successfully");
     }
+}
+
+class BranchCreationRequest {
+    private String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
 }

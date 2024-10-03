@@ -14,7 +14,7 @@ public class SecurityConfig {
         http
                 .csrf(CsrfConfigurer::disable) // Aquí deshabilitas CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/auth/register", "/api/movies", "/api/users", "/api/screenings", "/api/screenings/create", "/api/seats").permitAll() // Permitir acceso a las rutas de login y registro
+                        .requestMatchers("/auth/login", "/auth/register", "/api/branches/**", "/api/movies", "/api/users", "/api/screenings", "/api/screenings/create", "/api/seats").permitAll() // Permitir acceso a las rutas de login y registro
                         .anyRequest().authenticated() // Requiere autenticación para todas las demás rutas
                 );
 

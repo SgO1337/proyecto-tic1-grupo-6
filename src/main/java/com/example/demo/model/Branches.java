@@ -29,7 +29,11 @@ public class Branches{
     }
 
 
+    public List<Rooms> getRooms() {
+        return rooms;
+    }
 
-
-
+    public void setRooms(List<Rooms> rooms) {
+        this.rooms = rooms;
+    }
 }

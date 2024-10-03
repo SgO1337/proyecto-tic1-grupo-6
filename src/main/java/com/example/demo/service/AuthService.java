@@ -44,11 +44,15 @@ public class AuthService {
         return hexString.toString();
     }
 
-    public void registerUser(String email, String password) throws NoSuchAlgorithmException {
+    public void registerUser(String email, String password,String name, Integer ci, Integer age, String surname) throws NoSuchAlgorithmException {
         String hashedPassword = hashPassword(password);
         Users newUser = new Users();
         newUser.setEmail(email);
         newUser.setPassword(hashedPassword);
+        newUser.setName(name);
+        newUser.setCI(ci);
+        newUser.setAge(age);
+        newUser.setSurname(surname);
         UserRepository.save(newUser);
     }
 }

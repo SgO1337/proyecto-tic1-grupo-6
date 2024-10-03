@@ -32,6 +32,8 @@ public class SeatsService {
                     Seats seat = new Seats();
                     //seat.setSeatNumber("R" + row + "C" + col);
                     seat.setBooked(false);
+                    seat.setRow(row);
+                    seat.setCol(col);
                     seat.setScreening(screening);
                     seatsRepository.save(seat);
                 }

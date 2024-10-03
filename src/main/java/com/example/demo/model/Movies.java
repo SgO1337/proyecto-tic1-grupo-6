@@ -16,7 +16,7 @@ public class Movies {
     private String cast;
     private String releaseDate;
     @ElementCollection
-    private List<String> LanguagesAvailable;
+    private List<String> languagesAvailable;
     private String rating;
     private boolean isAvailable;
     private String distributer;
@@ -112,11 +112,11 @@ public class Movies {
     }
 
     public List<String> getLanguagesAvailable() {
-        return LanguagesAvailable;
+        return languagesAvailable;
     }
 
     public void setLanguagesAvailable(List<String> languagesAvailable) {
-        LanguagesAvailable = languagesAvailable;
+        languagesAvailable = languagesAvailable;
     }
 
     public String getRating() {

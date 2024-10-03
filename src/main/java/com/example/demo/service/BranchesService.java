@@ -1,10 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Branches;
+import com.example.demo.model.Users;
 import com.example.demo.repository.BranchesRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Service
@@ -32,5 +34,11 @@ public class BranchesService {
     @Transactional
     public void deleteBranch(Long id) {
         branchesRepository.deleteById(id);
+    }
+
+    public void createBranch(String location) {
+        Branches newBranch = new Branches();
+        newBranch.setLocation(location);
+        branchesRepository.save(newBranch);
     }
 }

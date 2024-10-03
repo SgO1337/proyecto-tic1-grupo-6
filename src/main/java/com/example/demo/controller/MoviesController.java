@@ -37,6 +37,8 @@ import java.util.List;
         // Crear una nueva película
         @PostMapping("/create")
         public Movies createMovie(@RequestBody Movies movie) {
+            
+
             return moviesService.saveMovie(movie);  // Crea y retorna la nueva película como JSON
         }
 
