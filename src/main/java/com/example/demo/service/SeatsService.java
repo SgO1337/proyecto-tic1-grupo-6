@@ -10,11 +10,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.model.Screenings;
+import com.example.demo.repository.ScreeningRepository; //esto se puede? preguntarle a rolo (estamos ens eats usando un repo de scr)
+
 @Service
 public class SeatsService {
 
     @Autowired
     private SeatsRepository seatsRepository;
+    private ScreeningRepository ScreeningRepository; // Inject the repository instance
+
+
+    @Transactional
+    public void createSeatsForScreening(Long screeningId) {
+        Optional<Screenings> screeningOpt = ScreeningRepository.findById(screeningId); // You need access to Screenings
+        if (screeningOpt.isPresent()) {
+            Screenings screening = screeningOpt.get();
+
+            for (int row = 1; row <= 15; row++) {
+                for (int col = 1; col <= 10; col++) {
+                    Seats seat = new Seats();
+                    //seat.setSeatNumber("R" + row + "C" + col);
+                    seat.setBooked(false);
+                    seat.setScreening(screening);
+                    seatsRepository.save(seat);
+                }
+            }
+        }
+    }
 
     // Function to return all seats and their states for a given screening
     public List<Seats> getAllSeatsByScreeningId(Long screeningId) {

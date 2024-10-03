@@ -12,7 +12,7 @@ public class Seats {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idSeat; //esto esta bien? o como hacemos
+    private Long idSeat;
     private String seatNumber;
     private boolean isBooked;
 
@@ -25,7 +25,16 @@ public class Seats {
         return this.isBooked;
     }
 
-    public void setBooked(boolean b) {
-        this.isBooked = b;
+    public void setBooked(boolean isBooked) {
+        this.isBooked = isBooked;
+    }
+
+    public Screenings getScreening() {
+        return screening;
+    }
+
+    // This method sets the Screenings entity directly
+    public void setScreening(Screenings screening) {
+        this.screening = screening;
     }
 }

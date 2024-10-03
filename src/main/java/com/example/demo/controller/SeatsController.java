@@ -11,7 +11,8 @@ import java.util.List;
 
 @RestController  // Cambio a RestController para respuestas en JSON
 @RequestMapping("/api/seats")  // Cambia la URL base para empezar con /api
-@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
+//@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
+//ahora que hago un bean desde screenings permitir peticiones del backend??
 
 //seats requiere:
 /*
@@ -40,6 +41,12 @@ public class SeatsController {
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Seat is already booked or not found.");
         }
+    }
+
+    @PostMapping("/createSeatsForScreening")
+    public ResponseEntity<String> createSeatsForScreening(@RequestParam Long screeningId) {
+        seatService.createSeatsForScreening(screeningId);
+        return ResponseEntity.ok("Seats created successfully.");
     }
 
     // Unbook a seat
