@@ -18,8 +18,9 @@ public class Food {
     private String type;
     private double price;
 
-    @OneToMany(mappedBy = "food")
-    private List<OrderFood> orders;
+    //esto es necesario? lo comento y despues cuando este orders vemos
+    //@OneToMany(mappedBy = "food")
+    //private List<OrderFood> orders;
 
     public Long getIdFood() {
         return idFood;
@@ -51,13 +52,5 @@ public class Food {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public List<OrderFood> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<OrderFood> orders) {
-        this.orders = orders;
     }
 }

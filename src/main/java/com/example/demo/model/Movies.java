@@ -32,7 +32,8 @@ public class Movies {
     private boolean isAvailable;
     private String distributor;
 
-    private String dimension;
+    @ElementCollection
+    private List<String> dimensionsAvailable;
 
     @Column(columnDefinition = "TEXT")
     private String verticalPosterBASE64;
@@ -140,12 +141,12 @@ public class Movies {
         this.distributor = distributor;
     }
 
-    public String getDimension() {
-        return dimension;
+    public List<String> getDimensionsAvailable() {
+        return dimensionsAvailable;
     }
 
-    public void setDimension(String dimension) {
-        this.dimension = dimension;
+    public void setDimensionsAvailable(List<String> dimensionsAvailable) {
+        this.dimensionsAvailable = dimensionsAvailable;
     }
 
     public String getVerticalPosterBASE64() {

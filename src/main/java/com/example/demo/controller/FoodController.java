@@ -2,90 +2,69 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Food;
 import com.example.demo.service.FoodService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController  // Cambio a RestController para respuestas en JSON
-@RequestMapping("/api/food")  // Cambia la URL base para empezar con /api
-@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
+@RestController  // Keep RestController for JSON responses
+@RequestMapping("/api/food")  // Base URL starts with /api
+@CrossOrigin(origins = "http://localhost:3000")  // Allow CORS for your React app
 public class FoodController {
 
     private final FoodService foodService;
 
-    // Constructor que inyecta el servicio FoodService
+    // Constructor that injects the FoodService
     public FoodController(FoodService foodService) {
         this.foodService = foodService;
     }
 
-    // Listar todos los alimentos
+    // List all foods
     @GetMapping
-    public String listFood(Model model) {
+    public ResponseEntity<List<Food>> listFood() {
         List<Food> foodList = foodService.getAllFood();
-        model.addAttribute("food", foodList);
-        return "food/index"; // Asegúrate de que "food/index.html" existe y lista los alimentos
+        return ResponseEntity.ok(foodList);  // Return food list with HTTP 200 OK
     }
 
-    // Mostrar el formulario para crear un nuevo alimento
-    @GetMapping("/create")
-    public String createFoodForm(Model model) {
-        model.addAttribute("food", new Food());  // Añade un nuevo objeto Food para el formulario
-        return "food/create"; // Asegúrate de que "food/create.html" existe para la creación de alimentos
-    }
-
-    // Guardar un nuevo alimento o actualizar uno existente
-    @PostMapping("/save")
-    public String saveFood(@ModelAttribute("food") Food food) {
-        foodService.saveFood(food);
-        return "redirect:/food"; // Redirige a la lista de alimentos después de guardar
-    }
-
-    // Ver un alimento específico por su ID
-    @GetMapping("/view/{id}")
-    public String viewFood(@PathVariable Long id, Model model) {
+    // View a specific food by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Food> viewFood(@PathVariable Long id) {
         Food food = foodService.getFoodById(id);
         if (food == null) {
-            return "redirect:/food";  // Manejar cuando no se encuentra el alimento, redirigir a la lista
+            return ResponseEntity.notFound().build();  // Return HTTP 404 if not found
         }
-        model.addAttribute("food", food);
-        return "food/view"; // Asegúrate de que "food/view.html" existe para mostrar los detalles del alimento
+        return ResponseEntity.ok(food);  // Return food with HTTP 200 OK
     }
 
-    // Mostrar el formulario para actualizar un alimento existente
-    @GetMapping("/update/{id}")
-    public String updateFoodForm(@PathVariable Long id, Model model) {
-        Food food = foodService.getFoodById(id);
-        if (food == null) {
-            return "redirect:/food";  // Manejar cuando no se encuentra el alimento, redirigir a la lista
-        }
-        model.addAttribute("food", food);
-        return "food/update"; // Asegúrate de que "food/update.html" existe para editar el alimento
+    // Create a new food
+    @PostMapping
+    public ResponseEntity<Food> createFood(@RequestBody Food food) {
+        Food createdFood = foodService.saveFood(food);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdFood);  // Return created food with HTTP 201 Created
     }
 
-    @PostMapping("/update")
-    public String updateFood(@ModelAttribute Food food) {
-        Food existingFood = foodService.getFoodById(food.getIdFood());
+    // Update an existing food
+    @PutMapping("/{id}")
+    public ResponseEntity<Food> updateFood(@PathVariable Long id, @RequestBody Food food) {
+        Food existingFood = foodService.getFoodById(id);
         if (existingFood == null) {
-            return "redirect:/food";  // Manejar cuando no se encuentra el alimento, redirigir a la lista
+            return ResponseEntity.notFound().build();  // Return HTTP 404 if not found
         }
 
-        // Actualizar los campos del alimento existente
+        // Update the fields of the existing food
         existingFood.setName(food.getName());
         existingFood.setPrice(food.getPrice());
 
-
-        // Guardar el alimento actualizado
-        foodService.saveFood(existingFood);
-
-        return "redirect:/food"; // Redirigir a la lista de alimentos después de actualizar
+        // Save the updated food
+        Food updatedFood = foodService.saveFood(existingFood);
+        return ResponseEntity.ok(updatedFood);  // Return updated food with HTTP 200 OK
     }
 
-    // Eliminar un alimento
-    @GetMapping("/delete/{id}")
-    public String deleteFood(@PathVariable Long id) {
+    // Delete a food
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFood(@PathVariable Long id) {
         foodService.deleteFood(id);
-        return "redirect:/food"; // Redirigir a la lista después de eliminar
+        return ResponseEntity.noContent().build();  // Return HTTP 204 No Content
     }
 }

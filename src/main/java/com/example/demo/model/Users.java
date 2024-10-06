@@ -16,6 +16,8 @@ public class Users {
     private String password;
     private Integer age;
 
+    private String role; //admin, usuario, root, etc
+
     @OneToMany()
     @JoinColumn(name= "idBookingScreenings", nullable = false)
     private List<BookingScreenings> bookingScreenings;

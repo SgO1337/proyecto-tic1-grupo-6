@@ -2,13 +2,15 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Users;
 import com.example.demo.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController  // Change to RestController for JSON responses
-@RequestMapping("/api/users")  // Update the base URL to start with /api
-//@CrossOrigin(origins = "http://localhost:3000")  // Allow CORS for your React app
+@RestController  // RestController for JSON responses
+@RequestMapping("/api/users")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private final UserService userService;
@@ -19,39 +21,46 @@ public class UserController {
 
     // List all users
     @GetMapping
-    public List<Users> listUsers() {
-        return userService.getAllUsers();  // Return a list of users in JSON
+    public ResponseEntity<List<Users>> listUsers() {
+        List<Users> usersList = userService.getAllUsers();
+        return ResponseEntity.ok(usersList);  // Return list of users with 200 OK
     }
 
-    // Create a new user
-    @PostMapping("/create")
-    public Users createUser(@RequestBody Users user) {
-        return userService.saveUser(user);  // Create and return the new user as JSON
-    }
+    //creacion de usuarios es por registro
 
     // View a specific user by ID
     @GetMapping("/view/{id}")
-    public Users viewUser(@PathVariable Long id) {
-        return userService.getUserById(id);  // Return the user as JSON
+    public ResponseEntity<Users> viewUser(@PathVariable Long id) {
+        Users user = userService.getUserById(id);
+        if (user == null) {
+            return ResponseEntity.notFound().build();  // Return 404 Not Found if user doesn't exist
+        }
+        return ResponseEntity.ok(user);  // Return the user with 200 OK
     }
 
     // Update an existing user
     @PutMapping("/update/{id}")
-    public Users updateUser(@PathVariable Long id, @RequestBody Users updatedUser) {
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody Users updatedUser) {
         Users existingUser = userService.getUserById(id);
         if (existingUser == null) {
-            return null;  // You can handle this with a 404 or an error message
+            return ResponseEntity.notFound().build();  // Return 404 Not Found if user doesn't exist
         }
+
+        // Update fields
         existingUser.setName(updatedUser.getName());
         existingUser.setEmail(updatedUser.getEmail());
 
-
-        return userService.saveUser(existingUser);  // Save and return the updated user
+        Users savedUser = userService.saveUser(existingUser);  // Save and return the updated user
+        return ResponseEntity.ok("User created successfully.");  // Return the updated user with 200 OK
     }
 
     // Delete a user
     @DeleteMapping("/delete/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        if (userService.getUserById(id) == null) {  // Check if user exists before deletion
+            return ResponseEntity.notFound().build();  // Return 404 Not Found if user doesn't exist
+        }
         userService.deleteUser(id);  // Delete the user by ID
+        return ResponseEntity.noContent().build();  // Return 204 No Content after deletion
     }
 }
