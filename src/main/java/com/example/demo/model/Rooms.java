@@ -9,22 +9,22 @@ public class Rooms {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idRoom;
 
     private String roomName;
     private String description;
 
-    @ManyToOne(optional=false)
+    @ManyToOne()
     @JoinColumn(name = "idBranch", nullable = false)
     private Branches branch;
 
     // Getters and setters
     public Long getId() {
-        return id;
+        return idRoom;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long idRoom) {
+        this.idRoom = idRoom;
     }
 
     public String getRoomName() {
@@ -41,5 +41,21 @@ public class Rooms {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getIdRoom() {
+        return idRoom;
+    }
+
+    public void setIdRoom(Long idRoom) {
+        this.idRoom = idRoom;
+    }
+
+    public Branches getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branches branch) {
+        this.branch = branch;
     }
 }
