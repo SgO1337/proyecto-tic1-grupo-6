@@ -14,7 +14,7 @@ public class Rooms {
     private String roomName;
     private String description;
 
-    @ManyToOne(optional=true)
+    @ManyToOne(optional=false)
     @JoinColumn(name = "idBranch", nullable = false)
     private Branches branch;
 
