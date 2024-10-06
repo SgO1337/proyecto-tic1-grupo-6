@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Users;
 import com.example.demo.repository.AuthRepository;
 import com.example.demo.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterRequest request) throws Exception {
+    public ResponseEntity<String> register(@RequestBody Users request) throws Exception {
         if(authRepository.findByEmail(request.getEmail()).isPresent()) {
             return ResponseEntity.status(400).body("El email ingresado ya ha sido registrado.");
         }
@@ -60,63 +61,3 @@ class LoginRequest {
         this.password = password;
     }
 }
-
-class RegisterRequest {
-    private String email;
-    private String password;
-    private Integer CI;
-    private Integer age;
-    private String surname;
-    private String name;
-
-    // Getters y setters
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getCI() {
-        return CI;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCI(Integer CI) {
-        this.CI = CI;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-}
-
-
