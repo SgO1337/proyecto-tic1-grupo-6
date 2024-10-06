@@ -34,7 +34,10 @@ public class Movies {
 
     private String dimension;
 
+    @Column(columnDefinition = "TEXT")
     private String verticalPosterBASE64;
+
+    @Column(columnDefinition = "TEXT")
     private String horizontalPosterBASE64;
 
     @OneToMany(mappedBy = "movie")
