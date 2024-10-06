@@ -49,14 +49,14 @@ public class ScreeningsController {
 
     // Create a new screening and trigger seat creation
     @PostMapping("/create")
-    public ResponseEntity<Screenings> createScreening(@RequestBody Screenings screening) {
+    public ResponseEntity<String> createScreening(@RequestBody Screenings screening) {
         // Save the screening first
         Screenings savedScreening = screeningService.saveScreening(screening);
 
         // Create seats for this screening by calling the service directly
         seatService.createSeatsForScreening(savedScreening.getIdScreening());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedScreening);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Screening created successfully.");
     }
 
 
