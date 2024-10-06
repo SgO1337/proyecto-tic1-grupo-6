@@ -50,6 +50,12 @@ public class ScreeningsController {
     // Create a new screening and trigger seat creation
     @PostMapping("/create")
     public ResponseEntity<String> createScreening(@RequestBody Screenings screening) {
+        // Check if the movie is available
+        if (screening.getMovie().isAvailable() == false) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Movie is not available.");
+        }
+
+
         // Save the screening first
         Screenings savedScreening = screeningService.saveScreening(screening);
 

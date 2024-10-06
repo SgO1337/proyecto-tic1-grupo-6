@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.model.Branches;
 import com.example.demo.model.Rooms;
 import com.example.demo.repository.RoomsRepository;
 import jakarta.transaction.Transactional;
@@ -33,6 +34,13 @@ public class RoomsService {
         return roomsRepository.save(room);  // Return the saved room
     }
 
+    public Rooms createRoom(String roomName, String description, Branches branch) {
+        Rooms room = new Rooms();
+        room.setRoomName(roomName);
+        room.setDescription(description);
+        room.setBranch(branch);
+        return roomsRepository.save(room);
+    }
     // Delete a room by ID
     @Transactional
     public boolean deleteRoom(Long id) {
@@ -47,4 +55,6 @@ public class RoomsService {
     public boolean existsById(Long id) {
         return roomsRepository.existsById(id);  // Check for existence
     }
+
+
 }

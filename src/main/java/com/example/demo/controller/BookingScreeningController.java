@@ -52,7 +52,7 @@ public class BookingScreeningController {
 
     @PostMapping("/create")
     public BookingScreenings createBookingScreening(@RequestBody BookingScreenings bookingScreenings) {
-        return bookingScreeningService.saveBookingScreening(bookingScreenings);
+        return bookingScreeningService.createBookingScreening(bookingScreenings.getIdBookingScreening(), bookingScreenings.getIdScreening(), bookingScreenings.getSeats(), bookingScreenings.getUser(), bookingScreenings.isCancelled(), bookingScreenings.getBookingTime());
     // The verification of the seats is done in the seats controller
     }
 

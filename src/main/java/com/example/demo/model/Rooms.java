@@ -42,4 +42,12 @@ public class Rooms {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Branches getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branches branch) {
+        this.branch = branch;
+    }
 }
