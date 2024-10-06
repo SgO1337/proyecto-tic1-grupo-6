@@ -15,24 +15,14 @@ public class Seats {
     private Long idSeat;
     private String seatNumber;
     private boolean isBooked;
-    private int row;
-    private int col;
+    private int seatRow; // Renamed from `row` to `seatRow`
+    private int seatCol; // Renamed from `row` to `seatRow`
     // Establishing the many-to-one relationship with Screening
     @ManyToOne
     @JoinColumn(name = "idScreening", nullable = false)
     private Screenings screening;
 
-    public boolean isBooked() {
-        return this.isBooked;
-    }
-
-    public void setBooked(boolean isBooked) {
-        this.isBooked = isBooked;
-    }
-
-    public Screenings getScreening() {
-        return screening;
-    }
+    //getters y  setters
 
     public Long getIdSeat() {
         return idSeat;
@@ -50,23 +40,34 @@ public class Seats {
         this.seatNumber = seatNumber;
     }
 
-    public int getRow() {
-        return row;
+    public boolean isBooked() {
+        return isBooked;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public void setBooked(boolean booked) {
+        isBooked = booked;
     }
 
-    public int getCol() {
-        return col;
+    public int getSeatRow() {
+        return seatRow;
     }
 
-    public void setCol(int col) {
-        this.col = col;
+    public void setSeatRow(int seatRow) {
+        this.seatRow = seatRow;
     }
 
-    // This method sets the Screenings entity directly
+    public int getSeatCol() {
+        return seatCol;
+    }
+
+    public void setSeatCol(int seatCol) {
+        this.seatCol = seatCol;
+    }
+
+    public Screenings getScreening() {
+        return screening;
+    }
+
     public void setScreening(Screenings screening) {
         this.screening = screening;
     }

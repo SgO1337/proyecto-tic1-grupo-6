@@ -12,7 +12,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(CsrfConfigurer::disable) // Aquí deshabilitas CSRF
+                .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login", "/auth/register", "/api/**").permitAll() //al terminar con el desarrollo, solamente permitir acceso a las rutas de login y registro
                         .anyRequest().authenticated() //requerir autenticación para todas las demás rutas

@@ -3,15 +3,13 @@ package com.example.demo.controller;
 import com.example.demo.model.Branches;
 import com.example.demo.service.BranchesService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController  // Cambio a RestController para respuestas en JSON
-@RequestMapping("/api/branches")  // Cambia la URL base para empezar con /api
-//@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
+@RestController  //RestController para respuestas en JSON
+@RequestMapping("/api/branches")
+//@CrossOrigin(origins = "http://localhost:3000") //Descomentar cuando llevemos a prod
 public class BranchesController {
 
     private final BranchesService branchesService;
@@ -30,15 +28,15 @@ public class BranchesController {
     public ResponseEntity<?> viewBranch(@PathVariable Long id) {
         Branches branch = branchesService.getBranchById(id);
         if (branch == null) {
-            return ResponseEntity.status(404).body("Branch not found");
+            return ResponseEntity.status(404).body("Branch not found.");
         }
         return ResponseEntity.ok(branch); // Return the branch details as JSON
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody BranchCreationRequest request) throws Exception {
-        branchesService.createBranch(request.getLocation());
-        return ResponseEntity.ok("test");
+    public ResponseEntity<String> create(@RequestBody Branches branch) throws Exception {
+        branchesService.createBranch(branch.getLocation());
+        return ResponseEntity.ok("Branch created successfully.");
     }
 
     @PutMapping("/update/{id}")
@@ -46,7 +44,7 @@ public class BranchesController {
         // Fetch the existing branch
         Branches branch = branchesService.getBranchById(id);
         if (branch == null) {
-            return ResponseEntity.status(400).body("Branch not found");
+            return ResponseEntity.status(400).body("Branch not found.");
         }
 
         // Update the branch details
@@ -55,31 +53,18 @@ public class BranchesController {
         // Save the updated branch
         branchesService.saveBranch(branch);
 
-        return ResponseEntity.ok("Branch updated successfully");
+        return ResponseEntity.ok("Branch updated successfully.");
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteBranch(@PathVariable Long id) {
         // Fetch the existing branch
         if (branchesService.getBranchById(id) == null) {
-            return ResponseEntity.status(400).body("Branch not found");
+            return ResponseEntity.status(400).body("Branch not found.");
         }
 
         branchesService.deleteBranch(id);
 
-        return ResponseEntity.ok("Branch deleted successfully");
+        return ResponseEntity.ok("Branch deleted successfully.");
     }
-}
-
-class BranchCreationRequest {
-    private String location;
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
 }

@@ -1,56 +1,50 @@
 package com.example.demo.model;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.*;
+import com.example.demo.model.Screenings;
+import org.springframework.cglib.core.Local;
 
 @Entity
 public class Movies {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMovie;
+
     private String title;
     private String description;
     private String genre;
-    private String duration;
+
+    // Change to integer to represent duration in minutes
+    private int duration;
+
     private String director;
     private String cast;
-    private String releaseDate;
+
+    // Use LocalDate for better date management
+    private LocalDate releaseDate;
+
     @ElementCollection
     private List<String> languagesAvailable;
+
     private String rating;
     private boolean isAvailable;
-    private String distributer;
+    private String distributor;
+
     private String dimension;
-    private String posterV;
-    private String posterH;
+
+    private String verticalPosterBASE64;
+    private String horizontalPosterBASE64;
 
     @OneToMany(mappedBy = "movie")
-    private List<Screenings> screenings;
+    private List<Screenings> screenings; // Changed to singular to match the convention
 
     public Long getIdMovie() {
         return idMovie;
     }
 
-    public String getPosterV() {
-        return posterV;
-    }
-
-    public void setPosterV(String posterV) {
-        this.posterV = posterV;
-    }
-
-    public String getPosterH() {
-        return posterH;
-    }
-
-    public void setPosterH(String posterH) {
-        this.posterH = posterH;
-    }
-
-    public void setScreenings(List<Screenings> screenings) {
-        this.screenings = screenings;
-    }
-
+    //Getters y Setters
     public void setIdMovie(Long idMovie) {
         this.idMovie = idMovie;
     }
@@ -79,11 +73,11 @@ public class Movies {
         this.genre = genre;
     }
 
-    public String getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 
@@ -103,11 +97,11 @@ public class Movies {
         this.cast = cast;
     }
 
-    public String getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -116,7 +110,7 @@ public class Movies {
     }
 
     public void setLanguagesAvailable(List<String> languagesAvailable) {
-        languagesAvailable = languagesAvailable;
+        this.languagesAvailable = languagesAvailable;
     }
 
     public String getRating() {
@@ -135,12 +129,12 @@ public class Movies {
         isAvailable = available;
     }
 
-    public String getDistributer() {
-        return distributer;
+    public String getDistributor() {
+        return distributor;
     }
 
-    public void setDistributer(String distributer) {
-        this.distributer = distributer;
+    public void setDistributor(String distributor) {
+        this.distributor = distributor;
     }
 
     public String getDimension() {
@@ -151,11 +145,27 @@ public class Movies {
         this.dimension = dimension;
     }
 
+    public String getVerticalPosterBASE64() {
+        return verticalPosterBASE64;
+    }
+
+    public void setVerticalPosterBASE64(String verticalPosterBASE64) {
+        this.verticalPosterBASE64 = verticalPosterBASE64;
+    }
+
+    public String getHorizontalPosterBASE64() {
+        return horizontalPosterBASE64;
+    }
+
+    public void setHorizontalPosterBASE64(String horizontalPosterBASE64) {
+        this.horizontalPosterBASE64 = horizontalPosterBASE64;
+    }
+
     public List<Screenings> getScreenings() {
         return screenings;
     }
 
-    public void setScreenings(Screenings screenings) {
-        this.screenings.add(screenings);
+    public void setScreenings(List<Screenings> screenings) {
+        this.screenings = screenings;
     }
 }

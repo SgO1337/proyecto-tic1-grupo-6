@@ -1,79 +1,83 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Movies;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
-
-import com.example.demo.model.Movies;
 import com.example.demo.service.MoviesService;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-    @RestController  // Cambio a RestController para respuestas en JSON
-    @RequestMapping("/api/movies")  // Cambia la URL base para empezar con /api
-    //@CrossOrigin(origins = "http://localhost:3000")  // Permitir CORS para tu aplicación React
-    public class MoviesController {
 
-        private final MoviesService moviesService;
+@RestController
+@RequestMapping("/api/movies")
+// @CrossOrigin(origins = "http://localhost:3000") // Uncomment for production
+public class MoviesController {
 
-        public MoviesController(MoviesService moviesService) {
-            this.moviesService = moviesService;
-        }
+    private final MoviesService moviesService;
 
-        // Listar todas las películas
-        @GetMapping
-        public List<Movies> listMovies() {
-            return moviesService.getAllMovies();  // Retorna una lista de películas en JSON
-        }
-
-        // Listar todas las películas en cartelera
-        @GetMapping("/currently-available")
-        public List<Movies> listAvailableMovies() {
-            return moviesService.getAllAvailableMovies();  // Retorna una lista de todas las películas en cartelera en JSON
-        }
-
-        // Crear una nueva película
-        @PostMapping("/create")
-        public Movies createMovie(@RequestBody Movies movie) {
-            
-
-            return moviesService.saveMovie(movie);  // Crea y retorna la nueva película como JSON
-        }
-
-        // Crear una nueva película
-        @PostMapping("/view/available")
-        public Movies getAvailableMovies(@RequestBody Movies movie) {
-            return moviesService.saveMovie(movie);  // Crea y retorna la nueva película como JSON
-        }
-
-        // Ver una película específica por ID
-        @GetMapping("/view/{id}")
-        public Movies viewMovie(@PathVariable Long id) {
-            return moviesService.getMovieById(id);  // Retorna la película como JSON
-        }
-
-        // Actualizar una película existente
-        @PutMapping("/update/{id}")
-        public Movies updateMovie(@PathVariable Long id, @RequestBody Movies updatedMovie) {
-            Movies existingMovie = moviesService.getMovieById(id);
-            if (existingMovie == null) {
-                return null;  // Puedes manejar esto con un 404 o un mensaje de error
-            }
-
-            // Actualizar los campos de la película
-            existingMovie.setTitle(updatedMovie.getTitle());
-            existingMovie.setDirector(updatedMovie.getDirector());
-            existingMovie.setReleaseDate(updatedMovie.getReleaseDate());
-
-            return moviesService.saveMovie(existingMovie);  // Guarda y retorna la película actualizada
-        }
-
-        // Eliminar una película
-        @DeleteMapping("/delete/{id}")
-        public void deleteMovie(@PathVariable Long id) {
-            moviesService.deleteMovie(id);  // Elimina la película por ID
-        }
+    public MoviesController(MoviesService moviesService) {
+        this.moviesService = moviesService;
     }
 
+    // List all movies
+    @GetMapping
+    public ResponseEntity<List<Movies>> listMovies() {
+        List<Movies> movies = moviesService.getAllMovies();
+        return ResponseEntity.ok(movies);
+    }
+
+    // List currently available movies
+    @GetMapping("/currently-available")
+    public ResponseEntity<List<Movies>> listAvailableMovies() {
+        List<Movies> availableMovies = moviesService.getAllAvailableMovies();
+        return ResponseEntity.ok(availableMovies);
+    }
+
+    // View a specific movie by ID
+    @GetMapping("/view/{id}")
+    public ResponseEntity<?> viewMovie(@PathVariable Long id) {
+        Movies movie = moviesService.getMovieById(id);
+        if (movie == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found.");
+        }
+        return ResponseEntity.ok(movie);
+    }
+
+    // Create a new movie
+    @PostMapping("/create")
+    public ResponseEntity<String> createMovie(@RequestBody Movies movie) {
+        moviesService.saveMovie(movie);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Movie created successfully.");
+    }
+
+    // Update an existing movie
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateMovie(@PathVariable Long id, @RequestBody Movies updatedMovie) {
+        Movies existingMovie = moviesService.getMovieById(id);
+        if (existingMovie == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found.");
+        }
+
+        // Update movie details, or use a utility to map fields
+        existingMovie.setTitle(updatedMovie.getTitle());
+        existingMovie.setDirector(updatedMovie.getDirector());
+        existingMovie.setReleaseDate(updatedMovie.getReleaseDate());
+        // Add other fields as necessary
+
+        moviesService.saveMovie(existingMovie);
+        return ResponseEntity.ok("Movie updated successfully.");
+    }
+
+    // Delete a movie by ID
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteMovie(@PathVariable Long id) {
+        Movies movie = moviesService.getMovieById(id);
+        if (movie == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Movie not found.");
+        }
+
+        moviesService.deleteMovie(id);
+        return ResponseEntity.ok("Movie deleted successfully.");
+    }
+}

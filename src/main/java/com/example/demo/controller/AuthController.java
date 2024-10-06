@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/auth")
 //@CrossOrigin(origins = "http://localhost:3000")
@@ -24,9 +23,9 @@ public class AuthController {
         boolean isAuthenticated = authService.authenticate(request.getEmail(), request.getPassword());
 
         if (isAuthenticated) {
-            return ResponseEntity.ok("Login exitoso");
+            return ResponseEntity.ok("Login exitoso.");
         } else {
-            return ResponseEntity.status(401).body("Email o contraseña incorrectos");
+            return ResponseEntity.status(401).body("Email o contraseña incorrectos.");
         }
     }
 
@@ -36,7 +35,7 @@ public class AuthController {
             return ResponseEntity.status(400).body("El email ingresado ya ha sido registrado.");
         }
         authService.registerUser(request.getEmail(), request.getPassword(), request.getName(),  request.getCI(), request.getAge(), request.getSurname());
-        return ResponseEntity.ok("Usuario registrado exitosamente"); //else this
+        return ResponseEntity.ok("Usuario registrado exitosamente.");
     }
 }
 

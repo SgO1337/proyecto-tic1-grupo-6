@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -14,14 +15,10 @@ public class Screenings {
     private String date;
     private String time;
     private String subtitles;
-
-
     // One Screening has many Seats
     @ManyToOne()
     @JoinColumn(name = "idMovie", nullable = false)
     private Movies movie;
-
-
 
     public Long getIdScreening() {
         return idScreening;
