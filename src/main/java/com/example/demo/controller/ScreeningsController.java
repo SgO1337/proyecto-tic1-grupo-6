@@ -51,7 +51,8 @@ public class ScreeningsController {
     @PostMapping("/create")
     public ResponseEntity<String> createScreening(@RequestBody Screenings screening) {
         // Check if the movie is available
-        if (screening.getMovie().isAvailable() == false) {
+        screening.getMovie().setAvailable(true);
+        if (!screening.getMovie().isAvailable()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Movie is not available.");
         }
 

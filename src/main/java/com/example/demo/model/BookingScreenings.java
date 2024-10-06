@@ -10,13 +10,13 @@ import java.time.LocalDateTime;
 public class BookingScreenings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idBookingScreening;
+    private Long idBookingScreening;
 
     private LocalDateTime bookingTime;
 
     private boolean isCancelled;
 
-    @ManyToOne()
+    @ManyToOne(optional = false)
     @JoinColumn(name = "idSeats", nullable = false)
     private Seats seats;
 

@@ -6,6 +6,7 @@ import com.example.demo.model.Screenings;
 import com.example.demo.model.Seats;
 import com.example.demo.model.Users;
 import com.example.demo.repository.BookingScreeningRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -16,18 +17,18 @@ import java.util.List;
 @Service
 public class BookingScreeningService {
 
-    @Autowired
+
     private final BookingScreeningRepository bookingScreeningRepository;
 
     public BookingScreeningService(BookingScreeningRepository bookingScreeningRepository) {
         this.bookingScreeningRepository = bookingScreeningRepository;
     }
-
+@Transactional
     public BookingScreenings saveBookingScreening(BookingScreenings bookingScreenings){
         return  bookingScreeningRepository.save(bookingScreenings);
 
     }
-
+@Transactional
     public void deleteBookingScreening(Long id){
         bookingScreeningRepository.deleteById(id);
     }
@@ -46,8 +47,8 @@ public class BookingScreeningService {
     }
 
     public BookingScreenings createBookingScreening(long idBookingScreening, Screenings idScreening, Seats idSeats, Users idUsers, boolean isCancelled, LocalDateTime bookingTime){
-        if ( idScreening == null || idSeats == null || idUsers == null || bookingTime == null)
-            throw new IllegalArgumentException("All fields are required");
+//        if ( idScreening == null || idSeats == null || idUsers == null || bookingTime == null)
+//            throw new IllegalArgumentException("All fields are required");
 
         BookingScreenings newBookingScreening = new BookingScreenings();
         newBookingScreening.setIdBookingScreening(idBookingScreening);
