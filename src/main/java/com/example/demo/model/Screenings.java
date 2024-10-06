@@ -18,9 +18,9 @@ public class Screenings {
     @JoinColumn(name = "idMovie", nullable = false)
     private Movies movie;
 
-    @OneToOne // Define the one-to-one relationship with Room
-    @JoinColumn(name = "room_id", referencedColumnName = "id", nullable = false) // Specify the foreign key column in the screenings table
-    private Rooms room; // Add a reference to the Room entity
+    //@OneToOne // Define the one-to-one relationship with Room
+    //@JoinColumn(name = "room_id", referencedColumnName = "id", nullable = false) // Specify the foreign key column in the screenings table
+    //private Rooms room; // Add a reference to the Room entity
 
     public Long getIdScreening() {
         return idScreening;
