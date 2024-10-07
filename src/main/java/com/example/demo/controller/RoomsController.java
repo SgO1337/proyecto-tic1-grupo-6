@@ -27,7 +27,7 @@ public class RoomsController {
     // Create a new room
     @PostMapping("/create")
     public Rooms createRoom(@RequestBody Rooms room) {
-        return roomsService.createRoom(room.getRoomName(), room.getDescription(), room.getBranch());  // Create and return the new room as JSON
+        return roomsService.saveRoom(room);  // Create and return the new room as JSON
     }
 
     // View a specific room by ID

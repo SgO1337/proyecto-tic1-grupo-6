@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Branches;
 import com.example.demo.model.Rooms;
+import com.example.demo.repository.BranchesRepository;
 import com.example.demo.repository.RoomsRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,13 @@ import java.util.Optional;
 public class RoomsService {
 
     private final RoomsRepository roomsRepository;
+    private final BranchesRepository branchesRepository;  // Inject this repository if needed
 
-    public RoomsService(RoomsRepository roomsRepository) {
+
+    public RoomsService(RoomsRepository roomsRepository, BranchesRepository branchesRepository) {
         this.roomsRepository = roomsRepository;
+        this.branchesRepository = branchesRepository;
     }
-
     // Get all rooms
     public List<Rooms> getAllRooms() {
         return roomsRepository.findAll();
@@ -28,10 +31,13 @@ public class RoomsService {
         return roomsRepository.findById(id);  // Return Optional to handle room not found
     }
 
-    // Save a new or existing room
     @Transactional
     public Rooms saveRoom(Rooms room) {
-        return roomsRepository.save(room);  // Return the saved room
+        if (room.getBranch() != null) {
+            Branches branch = branchesRepository.findById(room.getBranch().getIdBranch()).orElseThrow(() -> new RuntimeException("Branch not found"));
+            room.setBranch(branch);  // Ensure the correct branch is set
+        }
+        return roomsRepository.save(room);
     }
 
     public Rooms createRoom(String roomName, String description, Branches branch) {
