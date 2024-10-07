@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import com.example.demo.model.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class BookingScreenings {
@@ -16,9 +17,9 @@ public class BookingScreenings {
 
     private boolean isCancelled;
 
-    @ManyToOne(optional = false)
+    @OneToMany()
     @JoinColumn(name = "idSeats", nullable = false)
-    private Seats seats;
+    private List<Seats> seats;
 
     @OneToOne()
     @JoinColumn(name = "idUsers", nullable = false)
@@ -52,12 +53,12 @@ public class BookingScreenings {
         this.bookingTime = bookingTime;
     }
 
-    public Seats getSeats() {
+    public List<Seats> getSeats() {
         return seats;
     }
 
     public void setSeats(Seats seats) {
-        this.seats = seats;
+        this.seats.add(seats);
     }
 
     public Users getUser() {
