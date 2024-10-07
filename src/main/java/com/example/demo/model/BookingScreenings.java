@@ -76,4 +76,12 @@ public class BookingScreenings {
     public void setCancelled(boolean cancelled) {
         isCancelled = cancelled;
     }
+
+    public void setIdBookingScreening(Long idBookingScreening) {
+        this.idBookingScreening = idBookingScreening;
+    }
+
+    public void setSeats(List<Seats> seats) {
+        this.seats = seats;
+    }
 }

@@ -29,7 +29,9 @@ public class Movies {
     private List<String> languagesAvailable;
 
     private String rating;
-    private boolean isAvailable;
+
+    private boolean available;
+
     private String distributor;
 
     @ElementCollection
@@ -126,11 +128,11 @@ public class Movies {
     }
 
     public boolean isAvailable() {
-        return isAvailable;
+        return available;
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.available = available;
     }
 
     public String getDistributor() {

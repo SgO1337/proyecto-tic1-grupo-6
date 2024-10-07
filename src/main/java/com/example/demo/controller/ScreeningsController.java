@@ -46,7 +46,7 @@ public class ScreeningsController {
     @PostMapping("/create")
     public ResponseEntity<?> createScreening(@RequestBody Screenings screenings) {
         // Validate that both the requested Room and Movie exist in the database
-        if (screenings.getRoom() == null || screenings.getRoom().getIdRoom() == null) {
+        if (screenings.getRoom() == null || screenings.getRoom().getId() == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested room wasn't found.");
         }
 

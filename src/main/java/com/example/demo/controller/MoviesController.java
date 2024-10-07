@@ -46,9 +46,9 @@ public class MoviesController {
 
     // Create a new movie
     @PostMapping("/create")
-    public ResponseEntity<String> createMovie(@RequestBody Movies movie) {
+    public ResponseEntity<Movies> createMovie(@RequestBody Movies movie) {
         moviesService.saveMovie(movie);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Movie created successfully.");
+        return ResponseEntity.status(HttpStatus.CREATED).body(movie);
     }
 
     // Update an existing movie

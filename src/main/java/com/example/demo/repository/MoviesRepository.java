@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MoviesRepository extends JpaRepository<Movies, Long> {
 
-    @Query("SELECT m FROM Movies m WHERE m.isAvailable = true")
+    @Query("SELECT m FROM Movies m WHERE m.available = true")
     List<Movies> getAllAvailableMovies();
 
 }
