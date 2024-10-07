@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import com.example.demo.model.Rooms;
 
 @Entity
 public class Screenings {
@@ -13,14 +12,14 @@ public class Screenings {
     private String date;
     private String time;
     private String subtitles;
-    // One Screening has many Seats
+
     @ManyToOne()
     @JoinColumn(name = "idMovie", nullable = false)
     private Movies movie;
 
-    //@OneToOne // Define the one-to-one relationship with Room
-    //@JoinColumn(name = "room_id", referencedColumnName = "id", nullable = false) // Specify the foreign key column in the screenings table
-    //private Rooms room; // Add a reference to the Room entity
+    @OneToOne
+    @JoinColumn(name = "idRoom", nullable = false)
+    private Rooms room;
 
     public Long getIdScreening() {
         return idScreening;
@@ -68,5 +67,9 @@ public class Screenings {
 
     public void setMovie(Movies movie) {
         this.movie = movie;
+    }
+
+    public Rooms getRoom() {
+        return this.room;
     }
 }
