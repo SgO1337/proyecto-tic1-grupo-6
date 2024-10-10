@@ -40,8 +40,8 @@ public class BookingScreeningService {
 
         BookingScreenings newBookingScreening = new BookingScreenings();
         newBookingScreening.setIdBookingScreening(idBookingScreening);
-        newBookingScreening.setIdScreening(idScreening);
-        newBookingScreening.setSeats(idSeats);
+        //newBookingScreening.setIdScreening(idScreening);
+        //newBookingScreening.setSeats(idSeats);
         newBookingScreening.setUser(idUsers);
         newBookingScreening.setCancelled(isCancelled);
         newBookingScreening.setBookingTime(bookingTime);

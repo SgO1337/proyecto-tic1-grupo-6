@@ -56,7 +56,7 @@ public class ScreeningsController {
         Screenings savedScreening = screeningService.saveScreening(screenings);
 
         //Create seats for this screening by calling the service directly
-        seatService.createSeatsForScreening(savedScreening.getIdScreening());
+        seatService.createSeatsForScreening(savedScreening);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedScreening);
     }

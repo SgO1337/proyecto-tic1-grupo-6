@@ -36,6 +36,7 @@ public class SeatsController {
         }
     }
 
+    /*
     // Create seats for a specific screening
     @PostMapping("/createSeatsForScreening")
     public ResponseEntity<String> createSeatsForScreening(@RequestParam Long idScreening) {
@@ -47,7 +48,7 @@ public class SeatsController {
 
         seatService.createSeatsForScreening(idScreening);
         return ResponseEntity.ok("Seats created successfully.");
-    }
+    }*/
 
     // Unbook a seat for a specific screening
     @PutMapping("/unbook")

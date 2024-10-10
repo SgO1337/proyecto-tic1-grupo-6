@@ -24,19 +24,17 @@ public class SeatsService {
     private ScreeningRepository screeningRepository; // Inject the repository instance
 
     @Transactional
-    public ResponseEntity<Screenings> createSeatsForScreening(Long idScreening) {
-        Screenings screening = screeningRepository.getById(idScreening);
+    public void createSeatsForScreening(Screenings screenings) {
         for (int row = 1; row <= 15; row++) {
             for (int col = 1; col <= 10; col++) {
                 Seats seat = new Seats();
                 seat.setBooked(false);
                 seat.setSeatRow(row);
                 seat.setSeatCol(col);
-                seat.setScreening(screening);
+                seat.setScreening(screenings);
                 seatsRepository.save(seat);
             }
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(screening);
     }
 
     // Function to return all seats and their states for a given screening

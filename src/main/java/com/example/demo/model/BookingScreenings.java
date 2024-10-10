@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-
-import com.example.demo.model.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,32 +14,26 @@ public class BookingScreenings {
 
     private boolean isCancelled;
 
-    @OneToMany()
-    @JoinColumn(name = "idSeats", nullable = false)
+    // Correct the relationship, associating BookingScreenings with multiple seats
+    @OneToMany
+    @JoinColumn(name = "booking_screening_id", nullable = true) // Ensure the foreign key is on the Seats table
     private List<Seats> seats;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "idUsers", nullable = false)
     private Users user;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "idScreening", nullable = false)
-    private Screenings idScreening;
+    private Screenings screening;
 
-    public long getIdBookingScreening() {
+    // Getters and setters
+    public Long getIdBookingScreening() {
         return idBookingScreening;
     }
 
-    public void setIdBookingScreening(long idBookingScreening) {
+    public void setIdBookingScreening(Long idBookingScreening) {
         this.idBookingScreening = idBookingScreening;
-    }
-
-    public Screenings getIdScreening() {
-        return idScreening;
-    }
-
-    public void setIdScreening(Screenings idScreening) {
-        this.idScreening = idScreening;
     }
 
     public LocalDateTime getBookingTime() {
@@ -53,12 +44,20 @@ public class BookingScreenings {
         this.bookingTime = bookingTime;
     }
 
+    public boolean isCancelled() {
+        return isCancelled;
+    }
+
+    public void setCancelled(boolean cancelled) {
+        isCancelled = cancelled;
+    }
+
     public List<Seats> getSeats() {
         return seats;
     }
 
-    public void setSeats(Seats seats) {
-        this.seats.add(seats);
+    public void setSeats(List<Seats> seats) {
+        this.seats = seats;
     }
 
     public Users getUser() {
@@ -69,19 +68,12 @@ public class BookingScreenings {
         this.user = user;
     }
 
-    public boolean isCancelled() {
-        return isCancelled;
+    public Screenings getScreening() {
+        return screening;
     }
 
-    public void setCancelled(boolean cancelled) {
-        isCancelled = cancelled;
-    }
-
-    public void setIdBookingScreening(Long idBookingScreening) {
-        this.idBookingScreening = idBookingScreening;
-    }
-
-    public void setSeats(List<Seats> seats) {
-        this.seats = seats;
+    public void setScreening(Screenings screening) {
+        this.screening = screening;
     }
 }
+
