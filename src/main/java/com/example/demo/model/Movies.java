@@ -3,8 +3,6 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.*;
-import com.example.demo.model.Screenings;
-import org.springframework.cglib.core.Local;
 
 @Entity
 public class Movies {
@@ -20,7 +18,7 @@ public class Movies {
     private int duration;
 
     private String director;
-    private String cast;
+    private String casting;
 
     // Use LocalDate for better date management
     private LocalDate releaseDate;
@@ -96,11 +94,11 @@ public class Movies {
     }
 
     public String getCast() {
-        return cast;
+        return casting;
     }
 
-    public void setCast(String cast) {
-        this.cast = cast;
+    public void setCast(String casting) {
+        this.casting = casting;
     }
 
     public LocalDate getReleaseDate() {

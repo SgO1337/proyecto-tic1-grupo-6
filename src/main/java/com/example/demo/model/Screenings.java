@@ -18,7 +18,7 @@ public class Screenings {
     private Movies movie;
 
     @OneToOne
-    @JoinColumn(name = "idRoom", nullable = false)
+    @JoinColumn(name = "idRoom", nullable = false,  referencedColumnName = "id")
     private Rooms room;
 
     public Long getIdScreening() {

@@ -82,6 +82,15 @@ public class Users {
         return bookingScreenings;
     }
 
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public void setBookingScreenings(List<BookingScreenings> bookingScreenings) {
         this.bookingScreenings = bookingScreenings;
     }
