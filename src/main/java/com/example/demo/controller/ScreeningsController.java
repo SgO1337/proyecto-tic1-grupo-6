@@ -45,19 +45,18 @@ public class ScreeningsController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createScreening(@RequestBody Screenings screenings) {
-        // Validate that both the requested Room and Movie exist in the database
-        if (screenings.getRoom() == null || screenings.getRoom().getId() == null) {
+        if (screenings.getRoom() == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested room wasn't found.");
         }
 
-        if (screenings.getMovie() == null || screenings.getMovie().getIdMovie() == null) {
+        if (screenings.getMovie() == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested movie wasn't found.");
         }
 
-
         Screenings savedScreening = screeningService.saveScreening(screenings);
 
-        seatService.createSeatsForScreening(savedScreening.getIdScreening());//Create seats for this screening by calling the service directly
+        //Create seats for this screening by calling the service directly
+        seatService.createSeatsForScreening(savedScreening.getIdScreening());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedScreening);
     }
