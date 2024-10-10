@@ -14,17 +14,16 @@ public class BookingScreenings {
 
     private boolean isCancelled;
 
-    // Correct the relationship, associating BookingScreenings with multiple seats
-    @OneToMany
-    @JoinColumn(name = "booking_screening_id", nullable = true) // Ensure the foreign key is on the Seats table
+    // Corrected relationship with Seats, making it bidirectional
+    @OneToMany(mappedBy = "bookingScreening", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Seats> seats;
 
     @OneToOne
-    @JoinColumn(name = "idUsers", nullable = false)
+    @JoinColumn(name = "idUser")
     private Users user;
 
     @OneToOne
-    @JoinColumn(name = "idScreening", nullable = false)
+    @JoinColumn(name = "idScreening")
     private Screenings screening;
 
     // Getters and setters
@@ -76,4 +75,3 @@ public class BookingScreenings {
         this.screening = screening;
     }
 }
-

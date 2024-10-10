@@ -13,16 +13,21 @@ public class Seats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSeat;
-    //private String seatNumber; //esto lo agregamos despues, es por ejemplo R5C4 //(Row 5, Column 4)
+
     private boolean isBooked;
     private int seatRow;
     private int seatCol;
 
     @ManyToOne
-    @JoinColumn(name = "idScreening", nullable = false)
+    @JoinColumn(name = "screening_id", nullable = true) // Make sure to set nullable = false
     private Screenings screening;
 
-    //getters y  setters
+    // This is the missing field
+    @ManyToOne
+    @JoinColumn(name = "booking_screening_id") // Match the foreign key name from BookingScreenings
+    private BookingScreenings bookingScreening;
+
+    // Getters and setters
 
     public Long getIdSeat() {
         return idSeat;
@@ -63,5 +68,12 @@ public class Seats {
     public void setScreening(Screenings screening) {
         this.screening = screening;
     }
-}
 
+    public BookingScreenings getBookingScreening() {
+        return bookingScreening;
+    }
+
+    public void setBookingScreening(BookingScreenings bookingScreening) {
+        this.bookingScreening = bookingScreening;
+    }
+}

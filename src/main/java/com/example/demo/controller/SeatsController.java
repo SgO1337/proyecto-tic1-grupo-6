@@ -24,7 +24,7 @@ public class SeatsController {
         List<Seats> seats = seatService.getAllSeatsByidScreening(idScreening);
         return ResponseEntity.ok(seats);
     }
-
+/*
     // Book a seat for a specific screening
     @PutMapping("/book")
     public ResponseEntity<String> bookSeat(@RequestParam Long idScreening, @RequestParam Long seatId) {
@@ -34,7 +34,7 @@ public class SeatsController {
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Seat is already booked or not found.");
         }
-    }
+    }*/
 
     /*
     // Create seats for a specific screening
@@ -49,7 +49,7 @@ public class SeatsController {
         seatService.createSeatsForScreening(idScreening);
         return ResponseEntity.ok("Seats created successfully.");
     }*/
-
+/*
     // Unbook a seat for a specific screening
     @PutMapping("/unbook")
     public ResponseEntity<String> unbookSeat(@RequestParam Long idScreening, @RequestParam Long seatId) {
@@ -59,5 +59,5 @@ public class SeatsController {
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Seat is already unbooked or not found.");
         }
-    }
+    }*/
 }

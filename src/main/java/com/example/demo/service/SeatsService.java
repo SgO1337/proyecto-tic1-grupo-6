@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.model.BookingScreenings;
 import com.example.demo.model.Seats;
 import com.example.demo.model.Screenings;
 import com.example.demo.repository.SeatsRepository;
@@ -23,20 +24,6 @@ public class SeatsService {
     @Autowired
     private ScreeningRepository screeningRepository; // Inject the repository instance
 
-    @Transactional
-    public void createSeatsForScreening(Screenings screenings) {
-        for (int row = 1; row <= 15; row++) {
-            for (int col = 1; col <= 10; col++) {
-                Seats seat = new Seats();
-                seat.setBooked(false);
-                seat.setSeatRow(row);
-                seat.setSeatCol(col);
-                seat.setScreening(screenings);
-                seatsRepository.save(seat);
-            }
-        }
-    }
-
     // Function to return all seats and their states for a given screening
     public List<Seats> getAllSeatsByidScreening(Long idScreening) {
         List<Seats> bookedSeats = seatsRepository.getAllBookedSeatsByidScreening(idScreening);
@@ -46,6 +33,27 @@ public class SeatsService {
         return allSeats;
     }
 
+    public void createAndBookSeat(BookingScreenings bookingScreenings, int seatRow, int seatCol, Long screeningId) {
+        Seats seat = new Seats();
+        seat.setSeatRow(seatRow);
+        seat.setSeatCol(seatCol);
+        seat.setScreening(bookingScreenings.getScreening()); // Associate with screening
+        seat.setBookingScreening(bookingScreenings); // Associate with BookingScreenings
+
+        seatsRepository.save(seat);
+    }
+
+    public Seats findSeatByRowAndCol(int seatRow, int seatCol) {
+        // Find the seat using row and column only
+        return seatsRepository.findBySeatRowAndSeatCol(seatRow, seatCol);
+    }
+
+    // You can also implement the method to find by screening ID if needed
+    public Seats findSeatByRowAndColAndScreeningId(int seatRow, int seatCol, Long screeningId) {
+        return seatsRepository.findBySeatRowAndSeatColAndScreeningId(seatRow, seatCol, screeningId);
+    }
+
+    /*
     // Function to book (occupy) a seat
     public boolean bookSeat(Long idScreening, Long seatId) {
         Optional<Seats> seatOptional = seatsRepository.findSeatByidScreeningAndSeatId(idScreening, seatId);
@@ -80,5 +88,5 @@ public class SeatsService {
 
     public Screenings getScreeningById(Long idScreening) {
         return screeningRepository.findById(idScreening).orElse(null); // Use screeningRepository to find screening
-    }
+    }*/
 }

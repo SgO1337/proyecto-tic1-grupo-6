@@ -172,4 +172,12 @@ public class Movies {
     public void setScreenings(List<Screenings> screenings) {
         this.screenings = screenings;
     }
+
+    public String getCasting() {
+        return casting;
+    }
+
+    public void setCasting(String casting) {
+        this.casting = casting;
+    }
 }

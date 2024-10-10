@@ -17,6 +17,7 @@ public class RoomsService {
     private final BranchesRepository branchesRepository;  // Inject this repository if needed
 
 
+
     public RoomsService(RoomsRepository roomsRepository, BranchesRepository branchesRepository) {
         this.roomsRepository = roomsRepository;
         this.branchesRepository = branchesRepository;

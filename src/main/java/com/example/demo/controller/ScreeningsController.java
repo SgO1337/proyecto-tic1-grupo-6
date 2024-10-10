@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Screenings;
+import com.example.demo.service.MoviesService;
+import com.example.demo.service.RoomsService;
 import com.example.demo.service.ScreeningService;
 import com.example.demo.service.SeatsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +19,17 @@ public class ScreeningsController {
 
     @Autowired
     private final ScreeningService screeningService;
-    @Autowired
-    private final SeatsService seatService;
 
     @Autowired
     public ScreeningsController(ScreeningService screeningService, SeatsService seatService) {
         this.screeningService = screeningService;
-        this.seatService = seatService;
     }
+
+    @Autowired
+    private MoviesService movieService;
+
+    @Autowired
+    private RoomsService roomService;
 
     // List all screenings
     @GetMapping
@@ -45,18 +50,18 @@ public class ScreeningsController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createScreening(@RequestBody Screenings screenings) {
-        if (screenings.getRoom() == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested room wasn't found.");
-        }
-
-        if (screenings.getMovie() == null) {
+        // Check if the movie exists
+        if (screenings.getMovie() == null || !movieService.existsById(screenings.getMovie().getIdMovie())) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested movie wasn't found.");
         }
 
-        Screenings savedScreening = screeningService.saveScreening(screenings);
+        // Check if the room exists
+        if (screenings.getRoom() == null || !roomService.existsById(screenings.getRoom().getIdRoom())) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The requested room wasn't found.");
+        }
 
-        //Create seats for this screening by calling the service directly
-        seatService.createSeatsForScreening(savedScreening);
+        // Save the screening if both movie and room exist
+        Screenings savedScreening = screeningService.saveScreening(screenings);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(savedScreening);
     }

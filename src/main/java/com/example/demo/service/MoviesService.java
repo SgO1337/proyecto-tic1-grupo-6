@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.model.Movies;
 import com.example.demo.repository.MoviesRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +11,19 @@ import java.util.Optional;
 
 @Service
 public class MoviesService {
-    
+
+
+
     private final MoviesRepository moviesRepository;
+
+
+
+
+    public boolean existsById(Long id) {
+        return moviesRepository.existsById(id);
+    }
+
+
 
     public MoviesService(MoviesRepository moviesRepository) {
         this.moviesRepository = moviesRepository;
