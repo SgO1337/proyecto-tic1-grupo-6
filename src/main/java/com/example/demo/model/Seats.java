@@ -13,11 +13,11 @@ public class Seats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSeat;
-    private String seatNumber;
+    //private String seatNumber; //esto lo agregamos despues, es por ejemplo R5C4 //(Row 5, Column 4)
     private boolean isBooked;
-    private int seatRow; // Renamed from `row` to `seatRow`
-    private int seatCol; // Renamed from `row` to `seatRow`
-    // Establishing the many-to-one relationship with Screening
+    private int seatRow;
+    private int seatCol;
+
     @ManyToOne
     @JoinColumn(name = "idScreening", nullable = false)
     private Screenings screening;
@@ -30,14 +30,6 @@ public class Seats {
 
     public void setIdSeat(Long idSeat) {
         this.idSeat = idSeat;
-    }
-
-    public String getSeatNumber() {
-        return seatNumber;
-    }
-
-    public void setSeatNumber(String seatNumber) {
-        this.seatNumber = seatNumber;
     }
 
     public boolean isBooked() {

@@ -6,6 +6,8 @@ import com.example.demo.repository.SeatsRepository;
 import com.example.demo.repository.ScreeningRepository; // Import for the screening repository
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,22 +24,19 @@ public class SeatsService {
     private ScreeningRepository screeningRepository; // Inject the repository instance
 
     @Transactional
-    public void createSeatsForScreening(Long idScreening) {
-        Optional<Screenings> screeningOpt = screeningRepository.findById(idScreening); // Correctly use screeningRepository
-        if (screeningOpt.isPresent()) {
-            Screenings screening = screeningOpt.get();
-
-            for (int row = 1; row <= 15; row++) {
-                for (int col = 1; col <= 10; col++) {
-                    Seats seat = new Seats();
-                    seat.setBooked(false);
-                    seat.setSeatRow(row);
-                    seat.setSeatCol(col);
-                    seat.setScreening(screening);
-                    seatsRepository.save(seat);
-                }
+    public ResponseEntity<Screenings> createSeatsForScreening(Long idScreening) {
+        Screenings screening = screeningRepository.getById(idScreening);
+        for (int row = 1; row <= 15; row++) {
+            for (int col = 1; col <= 10; col++) {
+                Seats seat = new Seats();
+                seat.setBooked(false);
+                seat.setSeatRow(row);
+                seat.setSeatCol(col);
+                seat.setScreening(screening);
+                seatsRepository.save(seat);
             }
         }
+        return ResponseEntity.status(HttpStatus.CREATED).body(screening);
     }
 
     // Function to return all seats and their states for a given screening

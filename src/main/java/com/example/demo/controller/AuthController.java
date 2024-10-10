@@ -35,7 +35,7 @@ public class AuthController {
         if(authRepository.findByEmail(request.getEmail()).isPresent()) {
             return ResponseEntity.status(400).body("El email ingresado ya ha sido registrado.");
         }
-        authService.registerUser(request.getEmail(), request.getPassword(), request.getName(),  request.getCI(), request.getAge(), request.getSurname());
+        authService.registerUser(request.getEmail(), request.getPassword(), request.getName(), request.getCI(), request.getAge(), request.getSurname(), request.getRole());
         return ResponseEntity.ok("Usuario registrado exitosamente.");
     }
 }
